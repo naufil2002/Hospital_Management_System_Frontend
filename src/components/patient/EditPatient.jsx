@@ -34,11 +34,9 @@ function EditPatient() {
     axios
   .put(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients/${id}`, patient)
   .then(() => {
-  alert("✅ Patient updated successfully!");
-  setTimeout(() => {
+    alert("✅ Patient updated successfully!");
     navigate(`/patients?page=${page}&letter=${letter}`);
-  }, 1000);
-})
+  })
   .catch(() => {
     alert("❌ Failed to update patient.");
   });

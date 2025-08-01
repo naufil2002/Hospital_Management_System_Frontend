@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const BillList = () => {
@@ -31,15 +32,17 @@ const BillList = () => {
     }
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this bill?")) return;
-    try {
-      await axios.delete(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/bills/${id}`);
-      fetchBills();
-    } catch (err) {
-      console.error("Delete failed", err);
-    }
-  };
+ const handleDelete = async (id) => {
+  if (!window.confirm("Are you sure you want to delete this bill?")) return;
+  try {
+    await axios.delete(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/bills/${id}`);
+    fetchBills();
+    toast.success("✅ Bill deleted successfully!", { autoClose: 2000 });
+  } catch (err) {
+    console.error("Delete failed", err);
+    toast.error("❌ Failed to delete bill.");
+  }
+};
 
   const filteredBills = bills.filter((bill) => {
     const term = searchTerm.toLowerCase();

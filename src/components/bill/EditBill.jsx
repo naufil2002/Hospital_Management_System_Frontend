@@ -32,22 +32,24 @@ function EditBill() {
     setBill({ ...bill, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
     await axios.put(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/bills/${id}`, {
       amount: bill.amount,
       status: bill.status,
-      appointment: bill.appointment, // ✅ include this
+      appointment: bill.appointment, // ✅ keep appointment
     });
 
+    alert("✅ Bill updated successfully!");
     navigate(`/bills?page=${page}&search=${search}`);
   } catch (err) {
     console.error("Update failed", err);
-    alert("Failed to update bill.");
+    alert("❌ Failed to update bill.");
   }
 };
+
 
 
   return (

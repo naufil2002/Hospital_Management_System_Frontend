@@ -13,6 +13,7 @@ import Logout from "./components/Logout"; // ✅ Added
 import EditPatient from "./components/patient/EditPatient";
 import EditDoctor from "./components/doctor/EditDoctor";
 import EditBill from "./components/bill/EditBill";
+import { ToastContainer } from 'react-toastify';
 
 function HomePage({ openPatientModal, openDoctorModal, openAppointmentModal, openBillModal }) {
   return (
@@ -99,6 +100,7 @@ function App() {
           <Route path="/edit-patient/:id" element={<EditPatient />} />
           <Route path="/edit-doctor/:id" element={<EditDoctor />} />
         </Routes>
+         <ToastContainer />
 
         {/* Patient Modal */}
         {showPatientModal && (
