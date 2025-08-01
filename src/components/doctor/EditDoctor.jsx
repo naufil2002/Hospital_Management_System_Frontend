@@ -29,10 +29,15 @@ function EditDoctor() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors/${id}`, doctor).then(() => {
-      // ✅ Return to same page and letter filter
-      navigate(`/doctors?page=${page}&letter=${letter}`);
-    });
+    axios.put(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors/${id}`, doctor)
+  .then(() => {
+    alert("✅ Doctor updated successfully!");
+    navigate(`/doctors?page=${page}&letter=${letter}`);
+  })
+  .catch(() => {
+    alert("❌ Failed to update doctor.");
+  });
+
   };
 
   return (
