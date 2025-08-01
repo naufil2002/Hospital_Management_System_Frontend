@@ -50,9 +50,9 @@ export default function AddDoctor() {
         />
         <input
           type="text"
-          name="specialization"
-          placeholder="Specialization"
-          value={formData.specialization}
+          name="speciality"
+          placeholder="Speciality"
+          value={formData.speciality}
           onChange={handleChange}
           className="w-full p-2 border rounded"
           required
