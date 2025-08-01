@@ -19,7 +19,8 @@ const AppointmentList = () => {
 
   const fetchAppointments = async () => {
     try {
-      const res = await axios.get(`/api/v1/appointments?page=${page}&size=${pageSize}&sortBy=date`);
+     const res = await axios.get(
+  `https://hospital-management-system-backend-0gg8.onrender.com/api/v1/appointments?page=${page}&size=${pageSize}&sortBy=date`);
       console.log("🟡 appointments API response:", res.data);
       setAppointments(res.data.content || []);
       setTotalPages(res.data.totalPages || 1);
