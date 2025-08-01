@@ -8,29 +8,37 @@ function Admin({ setIsAdmin }) {
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    if (e) e.preventDefault(); // prevent form reload
+const handleLogin = async (e) => {
+  if (e) e.preventDefault(); // prevent form reload
 
-    try {
-      const params = new URLSearchParams();
-params.append('username', username);
-params.append('password', password);
-
-const res = await axios.post('https://hospital-management-system-backend-0gg8.onrender.com/admin/login', params);
-
-
-      if (res.data === 'success') {
-        localStorage.setItem('isAdmin', 'true');
-        setIsAdmin(true); // update App instantly
-        setMessage('✅ Login Successful!');
-        setTimeout(() => navigate('/'), 1000);
-      } else {
-        setMessage('❌ Login Failed!');
+  try {
+    const res = await axios.post(
+      'https://hospital-management-system-backend-0gg8.onrender.com/admin/login',
+      {
+        username: username,
+        password: password
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
       }
-    } catch (error) {
-      setMessage('⚠️ Server error. Try again.');
+    );
+
+    if (res.data === 'success') {
+      localStorage.setItem('isAdmin', 'true');
+      setIsAdmin(true); // update App instantly
+      setMessage('✅ Login Successful!');
+      setTimeout(() => navigate('/'), 1000);
+    } else {
+      setMessage('❌ Login Failed!');
     }
-  };
+  } catch (error) {
+    setMessage('⚠️ Server error. Try again.');
+    console.error("Login error:", error); // 🔍 Log actual error
+  }
+};
+
 
   return (
     <div className="min-h-screen flex justify-center items-start pt-36 bg-gray-100">
