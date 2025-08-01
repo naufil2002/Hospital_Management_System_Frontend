@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function AddDoctor() {
   const [formData, setFormData] = useState({
     name: "",
-    specialization: "",
+    speciality: "",
   });
 
   const navigate = useNavigate();
