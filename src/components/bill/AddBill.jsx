@@ -18,7 +18,7 @@ const AddBill = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/v1/patients?page=0&size=1000").then((res) => {
+    axios.get("https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients?page=0&size=1000").then((res) => {
       const data = res.data?.content || res.data;
       const options = Array.isArray(data)
         ? data.map((p) => ({
@@ -29,7 +29,7 @@ const AddBill = () => {
       setPatients(options);
     });
 
-    axios.get("http://localhost:8080/api/v1/doctors?page=0&size=1000").then((res) => {
+    axios.get("https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors?page=0&size=1000").then((res) => {
       const data = res.data?.content || res.data;
       const options = Array.isArray(data)
         ? data.map((d) => ({
@@ -62,7 +62,7 @@ const AddBill = () => {
   };
 
   try {
-    await axios.post("http://localhost:8080/api/v1/bills", billData);
+    await axios.post("https://hospital-management-system-backend-0gg8.onrender.com/api/v1/bills", billData);
     alert("✅ Bill added successfully!");
     navigate("/bills");
   } catch (err) {

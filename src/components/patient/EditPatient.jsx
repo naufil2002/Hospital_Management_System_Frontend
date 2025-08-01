@@ -20,7 +20,7 @@ function EditPatient() {
   const letter = queryParams.get("letter") || "";
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/v1/patients/${id}`).then((res) => {
+    axios.get(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients/${id}`).then((res) => {
       setPatient(res.data);
     });
   }, [id]);
@@ -31,7 +31,7 @@ function EditPatient() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:8080/api/v1/patients/${id}`, patient).then(() => {
+    axios.put(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients/${id}`, patient).then(() => {
       // ✅ Navigate back to previous page & section
       navigate(`/patients?page=${page}&letter=${letter}`);
     });

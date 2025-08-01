@@ -12,7 +12,7 @@ function Admin({ setIsAdmin }) {
     if (e) e.preventDefault(); // prevent form reload
 
     try {
-      const res = await axios.post('http://localhost:8080/admin/login', null, {
+      const res = await axios.post('https://hospital-management-system-backend-0gg8.onrender.com/admin/login', null, {
         params: { username, password },
       });
 

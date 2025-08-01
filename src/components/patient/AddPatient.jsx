@@ -17,7 +17,7 @@ export default function AddPatient() {
 const handleSubmit = async (e) => {
   e.preventDefault();
   try {
-    const res = await fetch("http://localhost:8080/api/v1/patients", {
+    const res = await fetch("https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),

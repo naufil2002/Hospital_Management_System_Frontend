@@ -17,8 +17,8 @@ const AddAppointment = () => {
     const fetchData = async () => {
       try {
         const [patientRes, doctorRes] = await Promise.all([
-          fetch("http://localhost:8080/api/v1/patients?page=0&size=1000"),
-          fetch("http://localhost:8080/api/v1/doctors?page=0&size=1000"),
+          fetch("https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients?page=0&size=1000"),
+          fetch("https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors?page=0&size=1000"),
         ]);
 
         if (!patientRes.ok || !doctorRes.ok) {
@@ -71,7 +71,7 @@ const handleSubmit = async (e) => {
   console.log("Sending appointmentData:", appointmentData);
 
   try {
-    const res = await fetch("http://localhost:8080/api/v1/appointments", {
+    const res = await fetch("https://hospital-management-system-backend-0gg8.onrender.com/api/v1/appointments", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(appointmentData),

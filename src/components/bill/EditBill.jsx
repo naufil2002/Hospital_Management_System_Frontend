@@ -18,7 +18,7 @@ function EditBill() {
   const search = queryParams.get("search") || "";
 
   useEffect(() => {
-  axios.get(`http://localhost:8080/api/v1/bills/${id}`).then((res) => {
+  axios.get(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/bills/${id}`).then((res) => {
     setBill({
       amount: res.data.amount || "",
       status: res.data.status || "",
@@ -36,7 +36,7 @@ function EditBill() {
   e.preventDefault();
 
   try {
-    await axios.put(`http://localhost:8080/api/v1/bills/${id}`, {
+    await axios.put(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/bills/${id}`, {
       amount: bill.amount,
       status: bill.status,
       appointment: bill.appointment, // ✅ include this

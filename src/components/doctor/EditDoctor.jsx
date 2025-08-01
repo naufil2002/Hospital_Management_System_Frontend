@@ -18,7 +18,7 @@ function EditDoctor() {
   const letter = queryParams.get("letter") || "";
 
   useEffect(() => {
-    axios.get(`http://localhost:8080/api/v1/doctors/${id}`).then((res) => {
+    axios.get(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors/${id}`).then((res) => {
       setDoctor(res.data);
     });
   }, [id]);
@@ -29,7 +29,7 @@ function EditDoctor() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put(`http://localhost:8080/api/v1/doctors/${id}`, doctor).then(() => {
+    axios.put(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors/${id}`, doctor).then(() => {
       // ✅ Return to same page and letter filter
       navigate(`/doctors?page=${page}&letter=${letter}`);
     });
