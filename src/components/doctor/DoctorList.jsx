@@ -18,7 +18,7 @@ const ViewDoctor = () => {
 
   const fetchDoctors = async () => {
     try {
-      const res = await axios.get(`/api/v1/doctors?page=${page}`);
+      const res = await axios.get(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors?page=${page}`);
       setDoctors(res.data.content);
       setTotalPages(res.data.totalPages);
     } catch (err) {
@@ -29,7 +29,7 @@ const ViewDoctor = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this doctor?")) return;
     try {
-      await axios.delete(`/api/v1/doctors/${id}`);
+      await axios.delete(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors/${id}`);
       fetchDoctors(); // refresh list
     } catch (err) {
       console.error("Delete failed", err);

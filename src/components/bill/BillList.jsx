@@ -18,7 +18,7 @@ const BillList = () => {
 
   const fetchBills = async () => {
     try {
-      const res = await axios.get(`/api/v1/bills?page=${page}&size=${pageSize}`);
+      const res = await axios.get(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/bills?page=${page}&size=${pageSize}`);
       if (Array.isArray(res.data)) {
         setBills(res.data);
         setTotalPages(1);
@@ -34,7 +34,7 @@ const BillList = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this bill?")) return;
     try {
-      await axios.delete(`/api/v1/bills/${id}`);
+      await axios.delete(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/bills/${id}`);
       fetchBills();
     } catch (err) {
       console.error("Delete failed", err);

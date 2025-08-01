@@ -20,7 +20,7 @@ const PatientList = () => {
 
   const fetchPatients = async () => {
     try {
-      const res = await axios.get(`/api/v1/patients?page=${page}`);
+      const res = await axios.get(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients?page=${page}`);
       setPatients(res.data.content);
       setTotalPages(res.data.totalPages);
     } catch (err) {
@@ -31,7 +31,7 @@ const PatientList = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this patient?")) return;
     try {
-      await axios.delete(`/api/v1/patients/${id}`);
+      await axios.delete(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients/${id}`);
       fetchPatients(); // refresh
     } catch (err) {
       console.error("Delete failed", err);
