@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function EditBill() {
   const { id } = useParams();
@@ -39,16 +40,17 @@ function EditBill() {
     await axios.put(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/bills/${id}`, {
       amount: bill.amount,
       status: bill.status,
-      appointment: bill.appointment, // ✅ keep appointment
+      appointment: bill.appointment,
     });
 
-    alert("✅ Bill updated successfully!");
+    toast.success("✅ Bill updated successfully!", { autoClose: 2000 });
     navigate(`/bills?page=${page}&search=${search}`);
   } catch (err) {
     console.error("Update failed", err);
-    alert("❌ Failed to update bill.");
+    toast.error("❌ Failed to update bill.");
   }
 };
+
 
 
 

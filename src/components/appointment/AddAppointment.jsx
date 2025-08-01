@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddAppointment = () => {
   const [patients, setPatients] = useState([]);
@@ -47,6 +48,7 @@ const AddAppointment = () => {
         setLoading(false);
       } catch (err) {
         console.error("Error fetching data:", err);
+        toast.error("❌ Failed to fetch patient or doctor data.");
         setLoading(false);
       }
     };
@@ -54,46 +56,41 @@ const AddAppointment = () => {
     fetchData();
   }, []);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!selectedPatient || !selectedDoctor) {
-    alert("Please select both a patient and doctor.");
-    return;
-  }
+    if (!selectedPatient || !selectedDoctor) {
+      toast.warning("⚠️ Please select both a patient and doctor.");
+      return;
+    }
 
-  const appointmentData = {
-    date: date,
-    doctor: { name: selectedDoctor.label.split(" (")[0] },
-    patient: { name: selectedPatient.label.split(" (")[0] },
+    const appointmentData = {
+      date: date,
+      doctor: { name: selectedDoctor.label.split(" (")[0] },
+      patient: { name: selectedPatient.label.split(" (")[0] },
+    };
+
+    try {
+      const res = await fetch("https://hospital-management-system-backend-0gg8.onrender.com/api/v1/appointments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(appointmentData),
+      });
+
+      if (res.ok) {
+        toast.success("✅ Appointment added successfully!");
+        navigate("/appointments");
+      } else {
+        const errMsg = await res.text();
+        console.error("Server responded with:", errMsg);
+        toast.error("❌ Error adding appointment.");
+      }
+    } catch (err) {
+      console.error("Submit error:", err);
+      toast.error("❌ Error submitting appointment.");
+    }
   };
 
-  console.log("Sending appointmentData:", appointmentData);
-
-  try {
-    const res = await fetch("https://hospital-management-system-backend-0gg8.onrender.com/api/v1/appointments", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(appointmentData),
-    });
-
-    if (res.ok) {
-      alert("✅ Appointment added successfully!");
-      navigate("/appointments"); // 👈 Redirect after success
-    } else {
-      const errMsg = await res.text();
-      console.error("Server responded with:", errMsg);
-      alert("❌ Error adding appointment");
-    }
-  } catch (err) {
-    console.error("Submit error:", err);
-    alert("❌ Error submitting appointment");
-  }
-};
-
-
-
-  // Filter patients based on search input
   const filteredPatients = patients.filter((p) =>
     p.label.toLowerCase().includes(patientInput.toLowerCase())
   );

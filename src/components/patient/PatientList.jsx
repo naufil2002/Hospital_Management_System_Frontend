@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const PatientList = () => {
   const [patients, setPatients] = useState([]);
@@ -10,8 +11,6 @@ const PatientList = () => {
   const navigate = useNavigate();
 
   const pageSize = 10;
-
-  // 👇 Check if admin is logged in
   const isAdmin = localStorage.getItem("isAdmin") === "true";
 
   useEffect(() => {
@@ -25,16 +24,21 @@ const PatientList = () => {
       setTotalPages(res.data.totalPages);
     } catch (err) {
       console.error("Error fetching patients:", err);
+      toast.error("❌ Failed to fetch patients");
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this patient?")) return;
+    const confirmed = window.confirm("Are you sure you want to delete this patient?");
+    if (!confirmed) return;
+
     try {
       await axios.delete(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients/${id}`);
-      fetchPatients(); // refresh
+      toast.success("✅ Patient deleted successfully!");
+      fetchPatients();
     } catch (err) {
       console.error("Delete failed", err);
+      toast.error("❌ Failed to delete patient");
     }
   };
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function AddDoctor() {
   const [formData, setFormData] = useState({
@@ -14,26 +15,28 @@ export default function AddDoctor() {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await fetch("https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    e.preventDefault();
+    try {
+      const res = await fetch(
+        "https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
 
-    if (res.ok) {
-      alert("✅ Doctor added successfully!");
-      navigate("/doctors"); // 👈 redirect after success
-    } else {
-      alert("❌ Failed to add doctor.");
+      if (res.ok) {
+        toast.success("✅ Doctor added successfully!", { autoClose: 2000 });
+        navigate("/doctors");
+      } else {
+        toast.error("❌ Failed to add doctor.");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("❌ Server error.");
     }
-  } catch (err) {
-    console.error(err);
-    alert("❌ Server error.");
-  }
-};
-
+  };
 
   return (
     <div className="max-w-md mx-auto mt-10 bg-white p-6 rounded-xl shadow-md">

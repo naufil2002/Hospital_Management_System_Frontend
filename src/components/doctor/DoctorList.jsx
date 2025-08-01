@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ViewDoctor = () => {
   const [doctors, setDoctors] = useState([]);
@@ -18,7 +19,9 @@ const ViewDoctor = () => {
 
   const fetchDoctors = async () => {
     try {
-      const res = await axios.get(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors?page=${page}`);
+      const res = await axios.get(
+        `https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors?page=${page}`
+      );
       setDoctors(res.data.content);
       setTotalPages(res.data.totalPages);
     } catch (err) {
@@ -29,10 +32,14 @@ const ViewDoctor = () => {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this doctor?")) return;
     try {
-      await axios.delete(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors/${id}`);
-      fetchDoctors(); // refresh list
+      await axios.delete(
+        `https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors/${id}`
+      );
+      toast.success("✅ Doctor deleted successfully!", { autoClose: 2000 });
+      fetchDoctors();
     } catch (err) {
       console.error("Delete failed", err);
+      toast.error("❌ Failed to delete doctor.");
     }
   };
 
@@ -100,7 +107,6 @@ const ViewDoctor = () => {
         )}
       </div>
 
-      {/* Pagination */}
       <div className="flex justify-center mt-4 space-x-2">
         <button
           onClick={() => setPage((prev) => Math.max(prev - 1, 0))}

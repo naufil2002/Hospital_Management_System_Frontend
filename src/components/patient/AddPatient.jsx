@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function AddPatient() {
   const [formData, setFormData] = useState({
@@ -14,28 +15,27 @@ export default function AddPatient() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const res = await fetch("https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    if (res.ok) {
-      alert("✅ Patient added successfully!");
-      setFormData({ name: "", age: "", gender: "" });
-      navigate("/patients"); // 👈 redirect after success
-    } else {
-      alert("❌ Failed to add patient.");
+      if (res.ok) {
+        toast.success("✅ Patient added successfully!", { autoClose: 2000 });
+        setFormData({ name: "", age: "", gender: "" });
+        navigate("/patients");
+      } else {
+        toast.error("❌ Failed to add patient.");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("❌ Server error.");
     }
-  } catch (err) {
-    console.error(err);
-    alert("❌ Server error.");
-  }
-};
-
+  };
 
   return (
     <div className="max-w-md mx-auto mt-10 bg-white p-6 rounded-xl shadow-md">

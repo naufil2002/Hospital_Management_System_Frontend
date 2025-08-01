@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 const AddBill = () => {
   const [patients, setPatients] = useState([]);
@@ -49,7 +51,7 @@ const AddBill = () => {
   e.preventDefault();
 
   if (!selectedPatient || !selectedDoctor) {
-    alert("Please select both patient and doctor.");
+    toast.error("Please select both patient and doctor.");
     return;
   }
 
@@ -63,13 +65,14 @@ const AddBill = () => {
 
   try {
     await axios.post("https://hospital-management-system-backend-0gg8.onrender.com/api/v1/bills", billData);
-    alert("✅ Bill added successfully!");
+    toast.success("✅ Bill added successfully!", { autoClose: 2000 });
     navigate("/bills");
   } catch (err) {
     console.error("Error adding bill", err);
-    alert("❌ Failed to add bill!");
+    toast.error("❌ Failed to add bill!");
   }
 };
+
 
 
   return (

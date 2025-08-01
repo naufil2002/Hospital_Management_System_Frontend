@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function EditDoctor() {
   const { id } = useParams();
@@ -12,15 +13,16 @@ function EditDoctor() {
     speciality: "",
   });
 
-  // ✅ Get query params to stay on same page after update
   const queryParams = new URLSearchParams(location.search);
   const page = queryParams.get("page") || 0;
   const letter = queryParams.get("letter") || "";
 
   useEffect(() => {
-    axios.get(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors/${id}`).then((res) => {
-      setDoctor(res.data);
-    });
+    axios
+      .get(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors/${id}`)
+      .then((res) => {
+        setDoctor(res.data);
+      });
   }, [id]);
 
   const handleChange = (e) => {
@@ -29,15 +31,15 @@ function EditDoctor() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors/${id}`, doctor)
-  .then(() => {
-    alert("✅ Doctor updated successfully!");
-    navigate(`/doctors?page=${page}&letter=${letter}`);
-  })
-  .catch(() => {
-    alert("❌ Failed to update doctor.");
-  });
-
+    axios
+      .put(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/doctors/${id}`, doctor)
+      .then(() => {
+        toast.success("✅ Doctor updated successfully!", { autoClose: 2000 });
+        navigate(`/doctors?page=${page}&letter=${letter}`);
+      })
+      .catch(() => {
+        toast.error("❌ Failed to update doctor.");
+      });
   };
 
   return (

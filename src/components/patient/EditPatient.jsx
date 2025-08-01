@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 function EditPatient() {
   const { id } = useParams();
@@ -14,15 +15,16 @@ function EditPatient() {
     contact: "",
   });
 
-  // ✅ Extract query params from URL
   const queryParams = new URLSearchParams(location.search);
   const page = queryParams.get("page") || 0;
   const letter = queryParams.get("letter") || "";
 
   useEffect(() => {
-    axios.get(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients/${id}`).then((res) => {
-      setPatient(res.data);
-    });
+    axios
+      .get(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients/${id}`)
+      .then((res) => {
+        setPatient(res.data);
+      });
   }, [id]);
 
   const handleChange = (e) => {
@@ -32,15 +34,14 @@ function EditPatient() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-  .put(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients/${id}`, patient)
-  .then(() => {
-    alert("✅ Patient updated successfully!");
-    navigate(`/patients?page=${page}&letter=${letter}`);
-  })
-  .catch(() => {
-    alert("❌ Failed to update patient.");
-  });
-
+      .put(`https://hospital-management-system-backend-0gg8.onrender.com/api/v1/patients/${id}`, patient)
+      .then(() => {
+        toast.success("✅ Patient updated successfully!", { autoClose: 2000 });
+        navigate(`/patients?page=${page}&letter=${letter}`);
+      })
+      .catch(() => {
+        toast.error("❌ Failed to update patient.");
+      });
   };
 
   return (

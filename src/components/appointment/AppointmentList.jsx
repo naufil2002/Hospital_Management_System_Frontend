@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AppointmentList = () => {
   const [appointments, setAppointments] = useState([]);
@@ -17,24 +18,26 @@ const AppointmentList = () => {
   }, [page]);
 
   const fetchAppointments = async () => {
-  try {
-    const res = await axios.get(`/api/v1/appointments?page=${page}&size=${pageSize}&sortBy=date`);
-    console.log("🟡 appointments API response:", res.data); // 👈 log this
-    setAppointments(res.data.content || []); // fallback to []
-    setTotalPages(res.data.totalPages || 1);
-  } catch (err) {
-    console.error("Error fetching appointments:", err);
-  }
-};
-
+    try {
+      const res = await axios.get(`/api/v1/appointments?page=${page}&size=${pageSize}&sortBy=date`);
+      console.log("🟡 appointments API response:", res.data);
+      setAppointments(res.data.content || []);
+      setTotalPages(res.data.totalPages || 1);
+    } catch (err) {
+      console.error("Error fetching appointments:", err);
+      toast.error("❌ Failed to fetch appointments.");
+    }
+  };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this appointment?")) return;
     try {
       await axios.delete(`/api/v1/appointments/${id}`);
-      fetchAppointments(); // refresh list
+      toast.success("✅ Appointment deleted successfully.");
+      fetchAppointments();
     } catch (err) {
       console.error("Delete failed", err);
+      toast.error("❌ Failed to delete appointment.");
     }
   };
 
